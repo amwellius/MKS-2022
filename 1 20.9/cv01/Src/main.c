@@ -23,30 +23,29 @@
   #warning "FPU is not initialized, but the project is compiling for an FPU. Please initialize the FPU before use."
 #endif
 
-
+// ctrl+i upravuje formatovanie
 
 int main(void)
 {
 	RCC->AHBENR |= RCC_AHBENR_GPIOAEN;
 	GPIOA->MODER |= GPIO_MODER_MODER5_0;
 
-	uint8_t pole[32] = {1, 0, 1, 0, 1, 0, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1,0, 0, 1, 0, 1, 0, 1};	//25
-	uint8_t i = 0;
-
-    /* Loop forever */
+	/* Loop forever */
 	for(;;) {
-
-		for (i=0;i<32;i++) {
-			if (pole[i] == 1) {
+		uint32_t morse = 0b1010100111011101110010101;
+		for (uint8_t j=0;j<32;j++){
+			uint32_t x = morse & (1UL<<31);
+			if (x)  {
 				GPIOA->BSRR = (1<<5);
-				for (volatile uint32_t j = 0; j < 100000; j++) {}
-			}
-			else {
+			} else {
 				GPIOA->BRR = (1<<5);
-				for (volatile uint32_t j = 0; j < 100000; j++) {}
 			}
+			morse = morse <<1;
+			for (uint32_t i = 0; i < 100000; i++) {}
 		}
-		for (volatile uint32_t j = 0; j < 300000; j++) {}
+		for (volatile uint32_t i = 0; i < 100000; i++) {}
+
+
 	}
 
 
