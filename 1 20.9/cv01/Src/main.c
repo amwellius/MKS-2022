@@ -29,12 +29,24 @@ int main(void)
 {
 	RCC->AHBENR |= RCC_AHBENR_GPIOAEN;
 	GPIOA->MODER |= GPIO_MODER_MODER5_0;
+
+	uint8_t pole[32] = {1, 0, 1, 0, 1, 0, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1,0, 0, 1, 0, 1, 0, 1};	//25
+	uint8_t i = 0;
+
     /* Loop forever */
 	for(;;) {
-		// GPIOA->BSRR = (1<<5); // set
-		// GPIOA->BRR = (1<<5); // reset
-		GPIOA->ODR ^= (1<<5); // toggle
-		for (volatile uint32_t i = 0; i < 100000; i++) {}
+
+		for (i=0;i<32;i++) {
+			if (pole[i] == 1) {
+				GPIOA->BSRR = (1<<5);
+				for (volatile uint32_t j = 0; j < 100000; j++) {}
+			}
+			else {
+				GPIOA->BRR = (1<<5);
+				for (volatile uint32_t j = 0; j < 100000; j++) {}
+			}
+		}
+		for (volatile uint32_t j = 0; j < 300000; j++) {}
 	}
 
 
