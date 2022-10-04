@@ -1,0 +1,71 @@
+GPIOA->ODR ^= GPIO_ODR_4; //negacia PA4/LED1
+uint32_t new_s2 = GPIOC->IDR & (1<<0); //Button S2
+
+//nastavenie portov
+GPIOA ->MODER |= GPIO_MODER_MODER4_0; // LED1 = PA4, output
+GPIOB->MODER |= GPIO_MODER_MODER0_0; // LED2 = PB0, output
+GPIOC->PUPDR |= GPIO_PUPDR_PUPDR0_0; // S2 = PC0, pullup
+GPIOC->PUPDR |= GPIO_PUPDR_PUPDR1_0; // S1 = PC1, pullup
+
+//obalka opakovania
+static uint32_t delay;
+
+	if (Tick > delay + LED_TIME_BLINK) {
+		GPIOA->ODR ^= GPIO_ODR_4; //negacia PA4/LED1
+		delay = Tick;
+	}
+
+//kazdych 40ms skontroluje ci bolo tlacidlo stlacene a ak hej zapne ledku
+//na LED_TIME_SHORT
+if (Tick > delay40 + 40) {
+		if (old_s2 && !new_s2) { // falling edge
+			off_time = Tick + LED_TIME_SHORT;
+			GPIOB->BSRR = (1<<0); //LED2
+		}
+		old_s2 = new_s2;
+		delay40 = Tick;
+	}
+
+//kazdych 40ms skontroluje ci bolo tlacidlo stlacene a ak hej zapne ledku
+//na LED_TIME_SHORT
+
+//kazdych 5ms kontroluje stlacenie buttonu, ak hej tak vyriesi zakmity 
+//a na LED_TIME_LONG zapne LEDku
+if (Tick > delay5 + 5) {
+	static uint16_t debounce = 0xFFFF;
+	debounce <<= 1;
+	if (GPIOC->IDR & (1<<1)) debounce |= 0x0001;
+	if (debounce == 0x8000){
+		off_time = Tick + LED_TIME_LONG;
+		GPIOB->BSRR = (1<<0); //LED2
+	}
+	delay5 = Tick;
+}
+
+//zhasne LEDku ked prejde off_time
+if (Tick > off_time) {
+	GPIOB->BRR = (1<<0);
+}
+
+
+//
+//init SysTick timer
+SysTick_Config(8000); // 1ms
+
+
+RCC->AHBENR |= RCC_AHBENR_GPIOAEN | RCC_AHBENR_GPIOBEN | RCC_AHBENR_GPIOCEN; // enable
+	
+
+	//clock SYSCFG povolenie
+	RCC->APB2ENR |= RCC_APB2ENR_SYSCFGEN;
+	/*
+	SYSCFG->EXTICR[0] |= SYSCFG_EXTICR1_EXTI0_PC; // select PC0 for EXTI0
+	EXTI->IMR |= EXTI_IMR_MR0; // mask
+	EXTI->FTSR |= EXTI_FTSR_TR0; // trigger on falling edge
+	NVIC_EnableIRQ(EXTI0_1_IRQn); // enable EXTI0_1
+	 */
+
+
+
+
+
