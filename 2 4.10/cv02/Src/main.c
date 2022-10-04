@@ -28,6 +28,14 @@
 
 // ctrl+i upravuje formatovanie
 
+	void EXTI0_1_IRQHandler(void)
+	{
+		if (EXTI->PR & EXTI_PR_PR0) { // check line 0 has triggered the IT
+			EXTI->PR |= EXTI_PR_PR0; // clear the pending bit
+			GPIOB->ODR ^= GPIO_ODR_0; //negacia PB0
+		}
+	}
+
 int main(void)
 {
 	RCC->AHBENR |= RCC_AHBENR_GPIOAEN | RCC_AHBENR_GPIOBEN | RCC_AHBENR_GPIOCEN; // enable
@@ -35,6 +43,17 @@ int main(void)
 	GPIOB->MODER |= GPIO_MODER_MODER0_0; // LED2 = PB0, output
 	GPIOC->PUPDR |= GPIO_PUPDR_PUPDR0_0; // S2 = PC0, pullup
 	GPIOC->PUPDR |= GPIO_PUPDR_PUPDR1_0; // S1 = PC1, pullup
+
+	//clock SYSCFG povolenie
+	RCC->APB2ENR |= RCC_APB2ENR_SYSCFGEN;
+
+	SYSCFG->EXTICR[0] |= SYSCFG_EXTICR1_EXTI0_PC; // select PC0 for EXTI0
+	EXTI->IMR |= EXTI_IMR_MR0; // mask
+	EXTI->FTSR |= EXTI_FTSR_TR0; // trigger on falling edge
+	NVIC_EnableIRQ(EXTI0_1_IRQn); // enable EXTI0_1
+
+
+
 
 	while (1) {};
 }
