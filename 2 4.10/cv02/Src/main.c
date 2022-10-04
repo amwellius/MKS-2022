@@ -32,6 +32,7 @@
 
 volatile uint32_t Tick=0;
 #define LED_TIME_BLINK 300 //300
+#define LED_TIME_SHORT 100 //100
 
 /*
 void EXTI0_1_IRQHandler(void)
@@ -41,7 +42,7 @@ void EXTI0_1_IRQHandler(void)
 		GPIOB->ODR ^= GPIO_ODR_0; //negacia PB0
 	}
 }
-*/
+ */
 
 void SysTick_Handler(void)
 {
@@ -58,6 +59,23 @@ void blikac(void)
 	}
 }
 
+void tlacitka(void)
+{
+	static uint32_t old_s2;
+	static uint32_t off_time;
+	uint32_t new_s2 = GPIOC->IDR & (1<<0);
+
+	if (old_s2 && !new_s2) { // falling edge
+		off_time = Tick + LED_TIME_SHORT;
+		GPIOB->BSRR = (1<<0);
+	}
+	old_s2 = new_s2;
+
+
+	if (Tick > off_time) {
+		GPIOB->BRR = (1<<0);
+	}
+}
 
 int main(void)
 {
@@ -73,16 +91,17 @@ int main(void)
 
 	//clock SYSCFG povolenie
 	RCC->APB2ENR |= RCC_APB2ENR_SYSCFGEN;
-
+	/*
 	SYSCFG->EXTICR[0] |= SYSCFG_EXTICR1_EXTI0_PC; // select PC0 for EXTI0
 	EXTI->IMR |= EXTI_IMR_MR0; // mask
 	EXTI->FTSR |= EXTI_FTSR_TR0; // trigger on falling edge
 	NVIC_EnableIRQ(EXTI0_1_IRQn); // enable EXTI0_1
-
+	*/
 
 
 	while (1) {
 		blikac();
+		tlacitka();
 	};
 }
 
