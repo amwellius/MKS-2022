@@ -23,31 +23,19 @@
   #warning "FPU is not initialized, but the project is compiling for an FPU. Please initialize the FPU before use."
 #endif
 
+
+
+
 // ctrl+i upravuje formatovanie
 
 int main(void)
 {
-	RCC->AHBENR |= RCC_AHBENR_GPIOAEN;
-	GPIOA->MODER |= GPIO_MODER_MODER5_0;
+	RCC->AHBENR |= RCC_AHBENR_GPIOAEN | RCC_AHBENR_GPIOBEN | RCC_AHBENR_GPIOCEN; // enable
+	GPIOA ->MODER |= GPIO_MODER_MODER4_0; // LED1 = PA4, output
+	GPIOB->MODER |= GPIO_MODER_MODER0_0; // LED2 = PB0, output
+	GPIOC->PUPDR |= GPIO_PUPDR_PUPDR0_0; // S2 = PC0, pullup
+	GPIOC->PUPDR |= GPIO_PUPDR_PUPDR1_0; // S1 = PC1, pullup
 
-	/* Loop forever */
-	for(;;) {
-		uint32_t morse = 0b1010100111011101110010101;
-		for (uint8_t j=0;j<32;j++){
-			uint32_t x = morse & (1UL<<31);
-			if (x)  {
-				GPIOA->BSRR = (1<<5);
-			} else {
-				GPIOA->BRR = (1<<5);
-			}
-			morse = morse <<1;
-			for (uint32_t i = 0; i < 100000; i++) {}
-		}
-		for (volatile uint32_t i = 0; i < 100000; i++) {}
-
-
-	}
-
-
+	while (1) {};
 }
 
