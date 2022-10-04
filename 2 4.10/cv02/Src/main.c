@@ -20,24 +20,51 @@
 #include "stm32f0xx.h"
 
 #if !defined(__SOFT_FP__) && defined(__ARM_FP)
-  #warning "FPU is not initialized, but the project is compiling for an FPU. Please initialize the FPU before use."
+#warning "FPU is not initialized, but the project is compiling for an FPU. Please initialize the FPU before use."
 #endif
 
 
 
 
-// ctrl+i upravuje formatovanie
 
-	void EXTI0_1_IRQHandler(void)
-	{
-		if (EXTI->PR & EXTI_PR_PR0) { // check line 0 has triggered the IT
-			EXTI->PR |= EXTI_PR_PR0; // clear the pending bit
-			GPIOB->ODR ^= GPIO_ODR_0; //negacia PB0
-		}
+// ctrl+i upravuje formatovanie
+// START ako: CTRL+B, F11, CTRL+F2 -> spustenie programu a nahranie
+
+volatile uint32_t Tick=0;
+#define LED_TIME_BLINK 300 //300
+
+/*
+void EXTI0_1_IRQHandler(void)
+{
+	if (EXTI->PR & EXTI_PR_PR0) { // check line 0 has triggered the IT
+		EXTI->PR |= EXTI_PR_PR0; // clear the pending bit
+		GPIOB->ODR ^= GPIO_ODR_0; //negacia PB0
 	}
+}
+*/
+
+void SysTick_Handler(void)
+{
+	Tick++;
+}
+
+void blikac(void)
+{
+	static uint32_t delay;
+
+	if (Tick > delay + LED_TIME_BLINK) {
+		GPIOA->ODR ^= GPIO_ODR_4; //negacia PA4/LED1
+		delay = Tick;
+	}
+}
+
 
 int main(void)
 {
+	//init SysTick timer
+	SysTick_Config(8000); // 1ms
+
+
 	RCC->AHBENR |= RCC_AHBENR_GPIOAEN | RCC_AHBENR_GPIOBEN | RCC_AHBENR_GPIOCEN; // enable
 	GPIOA ->MODER |= GPIO_MODER_MODER4_0; // LED1 = PA4, output
 	GPIOB->MODER |= GPIO_MODER_MODER0_0; // LED2 = PB0, output
@@ -54,7 +81,8 @@ int main(void)
 
 
 
-
-	while (1) {};
+	while (1) {
+		blikac();
+	};
 }
 
