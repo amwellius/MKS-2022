@@ -62,26 +62,51 @@ void blikac(void)
 
 void tlacitka(void)
 {
+	static uint32_t delay5;
+	static uint32_t delay40;
 	static uint32_t old_s2;
-	static uint32_t old_s1;
+	//static uint32_t old_s1;
 	static uint32_t off_time;
 
+
+
 	uint32_t new_s2 = GPIOC->IDR & (1<<0); //Button S2
-	uint32_t new_s1 = GPIOC->IDR & (1<<1); //Button S1
+	//uint32_t new_s1 = GPIOC->IDR & (1<<1); //Button S1
 
 	//s2
-	if (old_s2 && !new_s2) { // falling edge
-		off_time = Tick + LED_TIME_SHORT;
-		GPIOB->BSRR = (1<<0); //LED2
+	if (Tick > delay40 + 40) {
+		if (old_s2 && !new_s2) { // falling edge
+			off_time = Tick + LED_TIME_SHORT;
+			GPIOB->BSRR = (1<<0); //LED2
+		}
+		old_s2 = new_s2;
+		delay40 = Tick;
 	}
-	old_s2 = new_s2;
+
 
 	//s1
+
+
+
+	if (Tick > delay5 + 5) {
+		static uint16_t debounce = 0xFFFF;
+		debounce <<= 1;
+		if (GPIOC->IDR & (1<<1)) debounce |= 0x0001;
+		if (debounce == 0x8000){
+			off_time = Tick + LED_TIME_LONG;
+			GPIOB->BSRR = (1<<0); //LED2
+		}
+		delay5 = Tick;
+	}
+
+
+	/*
 	if (old_s1 && !new_s1) { // falling edge
 		off_time = Tick + LED_TIME_LONG;
 		GPIOB->BSRR = (1<<0); //LED2
 	}
 	old_s1 = new_s1;
+	 */
 
 	if (Tick > off_time) {
 		GPIOB->BRR = (1<<0);
@@ -114,6 +139,6 @@ int main(void)
 	while (1) {
 		blikac();
 		tlacitka();
-	};
+	}
 }
 
