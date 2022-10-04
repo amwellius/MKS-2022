@@ -33,6 +33,7 @@
 volatile uint32_t Tick=0;
 #define LED_TIME_BLINK 300 //300
 #define LED_TIME_SHORT 100 //100
+#define LED_TIME_LONG 1000 //1000
 
 /*
 void EXTI0_1_IRQHandler(void)
@@ -62,19 +63,30 @@ void blikac(void)
 void tlacitka(void)
 {
 	static uint32_t old_s2;
+	static uint32_t old_s1;
 	static uint32_t off_time;
-	uint32_t new_s2 = GPIOC->IDR & (1<<0);
 
+	uint32_t new_s2 = GPIOC->IDR & (1<<0); //Button S2
+	uint32_t new_s1 = GPIOC->IDR & (1<<1); //Button S1
+
+	//s2
 	if (old_s2 && !new_s2) { // falling edge
 		off_time = Tick + LED_TIME_SHORT;
-		GPIOB->BSRR = (1<<0);
+		GPIOB->BSRR = (1<<0); //LED2
 	}
 	old_s2 = new_s2;
 
+	//s1
+	if (old_s1 && !new_s1) { // falling edge
+		off_time = Tick + LED_TIME_LONG;
+		GPIOB->BSRR = (1<<0); //LED2
+	}
+	old_s1 = new_s1;
 
 	if (Tick > off_time) {
 		GPIOB->BRR = (1<<0);
 	}
+
 }
 
 int main(void)
@@ -96,7 +108,7 @@ int main(void)
 	EXTI->IMR |= EXTI_IMR_MR0; // mask
 	EXTI->FTSR |= EXTI_FTSR_TR0; // trigger on falling edge
 	NVIC_EnableIRQ(EXTI0_1_IRQn); // enable EXTI0_1
-	*/
+	 */
 
 
 	while (1) {
