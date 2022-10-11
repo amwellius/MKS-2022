@@ -37,8 +37,13 @@
 int main(void)
 {
 	sct_init();
-	sct_led(0x7A5C36DE);
+	//sct_led(0x7A5C36DE);
+
 	while (1) {
+		for(uint32_t i = 0; i<999; i+=111){			//uint8_t is not enought
+			sct_value(i);
+			for (volatile uint32_t ii = 0; ii < 100000; ii++) {}
+		}
 
 	}
 }
