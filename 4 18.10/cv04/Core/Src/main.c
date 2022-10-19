@@ -32,6 +32,7 @@
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
 #define ADC_Q 12
+#define DISPLAY_TIME 1000
 
 /* Temperature sensor calibration value address */
 #define TEMP110_CAL_ADDR ((uint16_t*) ((uint32_t) 0x1FFFF7C2))
@@ -145,40 +146,39 @@ int main(void)
 		sct_value((raw_pot*501/4096), (raw_pot*9/4096));
 		HAL_Delay(50);
 		 */
+        static uint32_t delay;
 		static enum { SHOW_POT, SHOW_VOLT, SHOW_TEMP } state = SHOW_POT;
 
 		if (HAL_GPIO_ReadPin(S1_GPIO_Port, S1_Pin)==0) {
 			state = SHOW_VOLT;
+            delay = HAL_GetTick() + DISPLAY_TIME;
 		}
 		if (HAL_GPIO_ReadPin(S2_GPIO_Port, S2_Pin)==0) {
 			state = SHOW_TEMP;
+            delay = HAL_GetTick() + DISPLAY_TIME;
 		}
 
 		switch (state) {
 		case SHOW_POT: {
 			sct_value((raw_pot*501/4096), (raw_pot*9/4096));
-
 			break;
 		}
 		case SHOW_VOLT: {
 
 			uint32_t voltage = 330 * (*VREFINT_CAL_ADDR) / raw_volt;
-
 			sct_value(voltage, 1);
 			break;
 		}
 		case SHOW_TEMP: {
 
 			int32_t temperature = (raw_temp - (int32_t)(*TEMP30_CAL_ADDR));
-
 			temperature = temperature * (int32_t)(110 - 30);
 			temperature = temperature / (int32_t)(*TEMP110_CAL_ADDR - *TEMP30_CAL_ADDR);
 			temperature = temperature + 30;
-
 			sct_value(temperature, 2);
 			break;
 		}
-		default:;
+		default: state = SHOW_POT;
 
 		}
 		HAL_Delay(50);
