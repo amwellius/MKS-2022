@@ -985,3 +985,44 @@
 2022-10-25 12:01:28,825 [INFO] ApiDb:447 - User favorites MCUs=[]
 2022-10-25 12:01:28,826 [INFO] ApiDb:443 - Save user favorites file C:\Users\xkosik09/.stm32cubeide/favorites.boards.txt: 0 item(s)
 2022-10-25 12:01:28,826 [INFO] ApiDb:447 - User favorites Boards=[]
+2022-10-25 12:13:09,028 [INFO] DmaTabbedPanel:202 - Cannot restore the selected Tab for DMA
+2022-10-25 12:13:42,952 [INFO] Gpio:272 - dependency for GPIO [RCC, SYS, USART2]
+2022-10-25 12:13:43,698 [INFO] Gpio:272 - dependency for GPIO [RCC, SYS, USART2]
+2022-10-25 12:20:13,823 [INFO] UtilMem:74 - End SaveConfig() Used Memory: 586568008 Bytes (1073741824)
+2022-10-25 12:20:17,307 [INFO] UtilMem:74 - End SaveConfig() Used Memory: 622802952 Bytes (1073741824)
+2022-10-25 12:20:17,530 [INFO] UtilMem:74 - End SaveConfig() Used Memory: 653408304 Bytes (1073741824)
+2022-10-25 12:20:17,784 [INFO] BlockDiagram:2753 - set Specific Code input for plugin: NVIC
+2022-10-25 12:20:17,784 [INFO] BlockDiagram:2753 - set Specific Code input for plugin: USART
+2022-10-25 12:20:17,784 [INFO] BlockDiagram:2753 - set Specific Code input for plugin: DMA
+2022-10-25 12:20:17,784 [INFO] BlockDiagram:2753 - set Specific Code input for plugin: SYS
+2022-10-25 12:20:17,785 [INFO] BlockDiagram:2753 - set Specific Code input for plugin: GPIO
+2022-10-25 12:20:17,785 [INFO] BlockDiagram:2753 - set Specific Code input for plugin: RCC
+2022-10-25 12:20:17,786 [INFO] CodeGenerator:690 - code generatio: config db path: C:\appz\ST\STM32CubeIDE_1.10.1\STM32CubeIDE\plugins\com.st.stm32cube.common.mx_6.6.1.202207061420\\db\
+2022-10-25 12:20:17,977 [INFO] CodeEngine:245 - oldGeneratedFile, C:\Temp\221056\5 25.10\cv05\MXTmpFiles\license.tmp_save
+2022-10-25 12:20:18,073 [INFO] CodeEngine:269 - Generated code: C:\Temp\221056\5 25.10\cv05\MXTmpFiles\license.tmp
+2022-10-25 12:20:18,102 [INFO] CodeEngine:245 - oldGeneratedFile, C:\Temp\221056\5 25.10\cv05\MXTmpFiles\gpio.tmp_save
+2022-10-25 12:20:18,193 [INFO] CodeEngine:269 - Generated code: C:\Temp\221056\5 25.10\cv05\MXTmpFiles\gpio.tmp
+2022-10-25 12:20:18,281 [INFO] CodeEngine:245 - oldGeneratedFile, C:\Temp\221056\5 25.10\cv05\MXTmpFiles\dma.tmp_save
+2022-10-25 12:20:18,366 [INFO] CodeEngine:269 - Generated code: C:\Temp\221056\5 25.10\cv05\MXTmpFiles\dma.tmp
+2022-10-25 12:20:18,371 [INFO] CodeEngine:245 - oldGeneratedFile, C:\Temp\221056\5 25.10\cv05\MXTmpFiles\dma_GV.tmp_save
+2022-10-25 12:20:18,499 [INFO] CodeEngine:269 - Generated code: C:\Temp\221056\5 25.10\cv05\MXTmpFiles\dma_GV.tmp
+2022-10-25 12:20:18,600 [INFO] CodeEngine:245 - oldGeneratedFile, C:\Temp\221056\5 25.10\cv05\Core\Src\stm32f0xx_it.c_save
+2022-10-25 12:20:18,700 [INFO] CodeEngine:269 - Generated code: C:\Temp\221056\5 25.10\cv05\Core\Src\stm32f0xx_it.c
+2022-10-25 12:20:18,709 [INFO] CodeEngine:245 - oldGeneratedFile, C:\Temp\221056\5 25.10\cv05\Core\Inc\stm32f0xx_it.h_save
+2022-10-25 12:20:18,789 [INFO] CodeEngine:269 - Generated code: C:\Temp\221056\5 25.10\cv05\Core\Inc\stm32f0xx_it.h
+2022-10-25 12:20:18,804 [INFO] CodeEngine:245 - oldGeneratedFile, C:\Temp\221056\5 25.10\cv05\Core\Src\stm32f0xx_hal_msp.c_save
+2022-10-25 12:20:18,918 [INFO] CodeEngine:269 - Generated code: C:\Temp\221056\5 25.10\cv05\Core\Src\stm32f0xx_hal_msp.c
+2022-10-25 12:20:18,924 [INFO] CodeEngine:245 - oldGeneratedFile, C:\Temp\221056\5 25.10\cv05\MXTmpFiles\system.tmp_save
+2022-10-25 12:20:18,992 [INFO] CodeEngine:269 - Generated code: C:\Temp\221056\5 25.10\cv05\MXTmpFiles\system.tmp
+2022-10-25 12:20:19,002 [INFO] CodeEngine:245 - oldGeneratedFile, C:\Temp\221056\5 25.10\cv05\Core\Inc\stm32f0xx_hal_conf.h_save
+2022-10-25 12:20:19,078 [INFO] CodeEngine:269 - Generated code: C:\Temp\221056\5 25.10\cv05\Core\Inc\stm32f0xx_hal_conf.h
+2022-10-25 12:20:19,106 [INFO] CodeEngine:245 - oldGeneratedFile, C:\Temp\221056\5 25.10\cv05\Core\Inc\main.h_save
+2022-10-25 12:20:19,184 [INFO] CodeEngine:269 - Generated code: C:\Temp\221056\5 25.10\cv05\Core\Inc\main.h
+2022-10-25 12:20:19,192 [INFO] CodeEngine:245 - oldGeneratedFile, C:\Temp\221056\5 25.10\cv05\Core\Src\main.c_save
+2022-10-25 12:20:19,326 [INFO] CodeEngine:269 - Generated code: C:\Temp\221056\5 25.10\cv05\Core\Src\main.c
+2022-10-25 12:20:20,044 [INFO] ProjectBuilder:2919 - Time for Copy HAL[1] : 191mS.
+2022-10-25 12:20:20,049 [INFO] ProjectBuilder:4117 - Project Generator version: 3.17.1
+2022-10-25 12:20:20,299 [INFO] ConfigFileManager:1394 - The Die is : DIE440
+2022-10-25 12:20:22,062 [INFO] ProjectBuilder:4285 - Time for Generating toolchain IDE Files: 2013mS.
+2022-10-25 12:20:22,064 [INFO] ProjectBuilder:2790 - Time for Copy CMSIS : 1mS.
+2022-10-25 12:20:22,067 [INFO] ProjectBuilder:2790 - Time for Copy CMSIS : 0mS.
