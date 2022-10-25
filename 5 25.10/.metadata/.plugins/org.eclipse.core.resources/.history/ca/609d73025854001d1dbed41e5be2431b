@@ -22,7 +22,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include <stdio.h>
-#include <string.h>
+
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -105,12 +105,8 @@ void uart_process_command(char cmd[CMD_BUFFER_LEN])
 			printf("LED1 is OFF\n");
 		}
 		else printf("LED1 is ON\n");
-		if (HAL_GPIO_ReadPin(LED2_GPIO_Port, LED2_Pin) == 0) {
-			printf("LED2 is OFF\n");
-		}
-		else printf("LED2 is ON\n");
 	}
-	//printf("prijato: '%s'\n", cmd);
+	printf("prijato: '%s'\n", cmd);
 }
 
 
