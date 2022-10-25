@@ -16,3 +16,9 @@ Command-line arguments:  -os win32 -ws win32 -arch x86_64
 
 !ENTRY org.eclipse.cdt.core 1 0 2022-10-25 12:01:32.201
 !MESSAGE Indexed 'cv05' (23 sources, 83 headers) in 4.07 sec: 4,575 declarations; 26,442 references; 0 unresolved inclusions; 1 syntax errors; 2 unresolved names (0.0064%)
+
+!ENTRY org.eclipse.help.base 2 0 2022-10-25 14:48:27.665
+!MESSAGE Unable to consume Lucene index from bundle 'org.eclipse.cdt.doc.user_5.4.1100.202112141617 [181]'. The index should be rebuilt with Lucene 8.4.1
+
+!ENTRY org.eclipse.help.base 2 0 2022-10-25 14:48:27.675
+!MESSAGE Unable to consume Lucene index from bundle 'org.eclipse.platform.doc.user_4.23.0.v20220302-1425 [340]'. The index should be rebuilt with Lucene 8.4.1
