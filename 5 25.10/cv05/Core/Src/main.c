@@ -81,16 +81,20 @@ int _write(int file, char const *buf, int n)
 void uart_process_command(char cmd[CMD_BUFFER_LEN])
 {
 	char *token;
+    // strtok reads 
 	token = strtok(cmd, " ");
+    // strcasecmp compares read token with string
 	if (strcasecmp(token, "HELLO") == 0) {
 		printf("Komunikace OK\n");
 	}
 	else if (strcasecmp(token, "LED1") == 0) {
 		token = strtok(NULL, " ");
 		if (strcasecmp(token, "ON") == 0){
+            // LED1 on specific pin turns on
 			HAL_GPIO_WritePin(LED1_GPIO_Port, LED1_Pin, 1);
 		}
 		else if (strcasecmp(token, "OFF") == 0) {
+            // LED1 on the pin turns off
 			HAL_GPIO_WritePin(LED1_GPIO_Port, LED1_Pin, 0);
 		}
 		printf("OK\n");
@@ -122,8 +126,11 @@ void uart_process_command(char cmd[CMD_BUFFER_LEN])
 	else if (strcasecmp(token, "READ") == 0){
 		uint16_t addr;
 		uint8_t value;
+        // ignores the first word and reads the next one
 		token = strtok(NULL, " ");
+        // atoi converts string from token to an integer
 		addr = atoi(token);
+        // on address addr returns its value to variable value
 		HAL_I2C_Mem_Read(&hi2c1, EEPROM_ADDR, addr, I2C_MEMADD_SIZE_16BIT, &value, 1, 1000);
 		printf("Adresa 0x%04x = 0x%02x\n", addr, value);
 	}
