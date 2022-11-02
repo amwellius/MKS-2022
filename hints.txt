@@ -66,6 +66,17 @@ RCC->AHBENR |= RCC_AHBENR_GPIOAEN | RCC_AHBENR_GPIOBEN | RCC_AHBENR_GPIOCEN; // 
 	 */
 
 
+// NEBLOKUJUCE CAKANIE
+	static uint32_t delay;
+	// neblokujuce cakanie o CONVERT_T_DELAY
+                //HAL_GetTick() dava aktualny cas
+            if (HAL_GetTick() > delay) {
+                // odkazom predava zmeranu hodnotu
+                OWReadTemperature(&temp_18b20);
+                OWConvertAll();
+                delay = HAL_GetTick() + CONVERT_T_DELAY
+            }             			
+
 
 
 
