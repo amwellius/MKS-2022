@@ -77,6 +77,15 @@ RCC->AHBENR |= RCC_AHBENR_GPIOAEN | RCC_AHBENR_GPIOBEN | RCC_AHBENR_GPIOCEN; // 
                 delay = HAL_GetTick() + CONVERT_T_DELAY
             }             			
 
+// spracovanie vysledku az po 1 sekunde
+		static uint8_t count = 0;
+		if (count > 20) {
+			count = 0;
+			printf("X=%d Y=%d Z=%d\n", raw_acceleration[0], raw_acceleration[1], raw_acceleration[2]);
+		}
+		else {
+			count++;
+		}
 
 
 
