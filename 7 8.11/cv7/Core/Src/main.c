@@ -94,6 +94,7 @@ static int32_t platform_read(void *handle, uint8_t reg, uint8_t *bufp, uint16_t 
 	return 0;
 }
 
+// funkcia na pouzitie UARTu
 int _write(int file, char const *buf, int n)
 {
 	/* stdout redirection to UART2 */
@@ -382,6 +383,7 @@ void StartDefaultTask(void const * argument)
 	/* Infinite loop */
 	for(;;)
 	{
+        
 		//int16_t msg;
 		//xQueueSend(xVisualQueueHandle, &msg, 0);
 		/*
@@ -468,6 +470,7 @@ void StartAcceleroTask(void const * argument)
 			// Read acceleration data
 			lis2dw12_acceleration_raw_get(&lis2dw12, raw_acceleration);
 		}
+        // data raw_data[0] odosle cez adresu do Queue a RTOS dalej pracuje
 		xQueueSend(xVisualQueueHandle, &raw_acceleration[0], 0);
 		osDelay(50);
 		// spracovanie vysledku az po 1 sekunde
