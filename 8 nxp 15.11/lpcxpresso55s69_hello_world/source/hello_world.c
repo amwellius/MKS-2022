@@ -16,6 +16,7 @@
 #include "peripherals.h"
 #include "fsl_powerquad.h"
 #include "math.h"
+#include <string.h>
 
 
 /*******************************************************************************
@@ -102,12 +103,63 @@ int main(void)
 		CTIMER_StartTimer(CTIMER0_PERIPHERAL);
 		Generate_sin_table_float(&SinTable_f[0],TABLE_LENGHT,1.0f, 1.0f);
 
-
+		char pass_stored[20] = "1234";
 
 		while (1)
 		{
-			ch = GETCHAR();
-			PUTCHAR(ch);
+			int32_t DWT1, DWT2;
+			char input[20];
+			PRINTF("\r\nEnter pass:");
+			//ch = GETCHAR();
+			//PUTCHAR(ch);
+			SCANF("%s", input);
+
+			//meranie casu
+			DWT1 = DWT -> CYCCNT;
+
+
+			//uint32_t status = strcmp(input, pass_stored);
+
+			uint8_t ok = 0;
+			uint8_t nok = 0;
+			for(uint8_t i = 0 ; i < strlen(input); i++ ) {
+				if (input[i] == pass_stored[i]) {
+					ok++;
+				}
+				else {
+					ok--;
+				}
+			}
+
+			uint8_t status;
+			if (ok == strlen(pass_stored)) {
+					status = 0;
+
+			}
+			else if (ok == strlen(input)) {
+					status = 1;
+				}
+			else status = 1;
+
+
+
+
+
+			DWT2 = DWT -> CYCCNT;
+			//koniec merania casu
+
+
+
+
+			if (status == 0) {
+				PRINTF("\r\n valid ");
+			}
+			else {
+				PRINTF("\r\nINVALID ");
+			}
+			PRINTF("Cycles in function: %d", DWT2-DWT1);
+
+
 		}
 }
 

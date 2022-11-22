@@ -7,11 +7,12 @@
     <booleanAttribute key="com.crt.ctrlcenter.crtInit" value="true"/>
     <stringAttribute key="com.crt.ctrlcenter.currentWireType" value="SWD"/>
     <booleanAttribute key="com.crt.ctrlcenter.mainBreakIsHardware" value="true"/>
-    <booleanAttribute key="com.crt.ctrlcenter.saveState" value="true"/>
     <stringAttribute key="com.crt.ctrlcenter.serialNumber" value="LinkServerNXP SemiconductorsLPC-LINK2 CMSIS-DAP V5.224ORAWCQIR"/>
-    <mapAttribute key="com.crt.ctrlcenter.symbolsGroupSettings"/>
+    <mapAttribute key="com.crt.ctrlcenter.symbolsGroupSettings">
+        <mapEntry key="${workspace_loc:/lpcxpresso55s69_hello_world_ns/Debug/lpcxpresso55s69_hello_world_ns.axf}" value=""/>
+    </mapAttribute>
     <intAttribute key="com.crt.ctrlcenter.version" value="6"/>
-    <stringAttribute key="com.nxp.mcuxpresso.flash.base.address" value="0x0"/>
+    <stringAttribute key="com.nxp.mcuxpresso.flash.base.address" value="0x10000000"/>
     <booleanAttribute key="com.nxp.mcuxpresso.flash.clear.console" value="true"/>
     <booleanAttribute key="com.nxp.mcuxpresso.flash.confirm" value="false"/>
     <stringAttribute key="com.nxp.mcuxpresso.flash.erase.algorithm" value="Mass erase"/>
@@ -77,13 +78,13 @@
     <intAttribute key="org.eclipse.cdt.launch.ATTR_BUILD_BEFORE_LAUNCH_ATTR" value="2"/>
     <stringAttribute key="org.eclipse.cdt.launch.DEBUGGER_ID" value="gdb"/>
     <stringAttribute key="org.eclipse.cdt.launch.DEBUGGER_START_MODE" value="remote"/>
-    <stringAttribute key="org.eclipse.cdt.launch.PROGRAM_NAME" value="Debug\lpcxpresso55s69_hello_world.axf"/>
-    <stringAttribute key="org.eclipse.cdt.launch.PROJECT_ATTR" value="lpcxpresso55s69_hello_world"/>
+    <stringAttribute key="org.eclipse.cdt.launch.PROGRAM_NAME" value="Debug\lpcxpresso55s69_hello_world_s.axf"/>
+    <stringAttribute key="org.eclipse.cdt.launch.PROJECT_ATTR" value="lpcxpresso55s69_hello_world_s"/>
     <booleanAttribute key="org.eclipse.cdt.launch.PROJECT_BUILD_CONFIG_AUTO_ATTR" value="false"/>
-    <stringAttribute key="org.eclipse.cdt.launch.PROJECT_BUILD_CONFIG_ID_ATTR" value="com.crt.advproject.config.exe.debug.316831664"/>
+    <stringAttribute key="org.eclipse.cdt.launch.PROJECT_BUILD_CONFIG_ID_ATTR" value="com.crt.advproject.config.exe.debug.340551337"/>
     <booleanAttribute key="org.eclipse.cdt.launch.use_terminal" value="false"/>
     <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
-        <listEntry value="/lpcxpresso55s69_hello_world"/>
+        <listEntry value="/lpcxpresso55s69_hello_world_s"/>
     </listAttribute>
     <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_TYPES">
         <listEntry value="4"/>
