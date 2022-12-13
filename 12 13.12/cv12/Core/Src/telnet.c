@@ -42,6 +42,34 @@
 #define telnet_THREAD_PRIO  ( tskIDLE_PRIORITY + 4 )
 #define CMD_BUFFER_LEN 256
 
+static void http_client(char *s, uint16_t size)
+{
+	struct netconn *client;
+	struct netbuf *buf;
+	ip_addr_t ip;
+	uint16_t len = 0;
+	IP_ADDR4(&ip, 147,229,144,124);
+	const char *request = "GET /ip.php HTTP/1.1\r\n"
+			"Host: www.urel.feec.vutbr.cz\r\n"
+			"Connection: close\r\n"
+			"\r\n\r\n";
+	client = netconn_new(NETCONN_TCP);
+	if (netconn_connect(client, &ip, 80) == ERR_OK) {
+		netconn_write(client, request, strlen(request), NETCONN_COPY);
+		// Receive the HTTP response
+		s[0] = 0;
+		while (len < size && netconn_recv(client, &buf) == ERR_OK) {
+			len += netbuf_copy(buf, &s[len], size-len);
+			s[len] = 0;
+			netbuf_delete(buf);
+		}
+	} else {
+		sprintf(s, "Chyba pripojeni\n");
+	}
+	netconn_delete(client);
+}
+
+
 static void telnet_process_command(char *cmd, struct netconn *conn)
 {
 	char *token;
@@ -50,7 +78,7 @@ static void telnet_process_command(char *cmd, struct netconn *conn)
 	token = strtok(cmd, " ");
 	// strcasecmp compares read token with string
 	if (strcasecmp(token, "HELLO") == 0) {
-		sprintf(s, "Komunikace OK\n");
+		sprintf(s, "Komunikace OK\r\n");
 	}
 	else if (strcasecmp(token, "LED1") == 0) {
 		token = strtok(NULL, " ");
@@ -75,46 +103,27 @@ static void telnet_process_command(char *cmd, struct netconn *conn)
 		sprintf(s, "OK\n");
 	}
 	else if (strcasecmp(token, "LED3") == 0) {
-			token = strtok(NULL, " ");
-			if (strcasecmp(token, "ON") == 0){
-				HAL_GPIO_WritePin(LD3_GPIO_Port, LD3_Pin, 1);
-			}
-			else if (strcasecmp(token, "OFF") == 0) {
-				HAL_GPIO_WritePin(LD3_GPIO_Port, LD3_Pin, 0);
-			}
-			sprintf(s, "OK\n");
+		token = strtok(NULL, " ");
+		if (strcasecmp(token, "ON") == 0){
+			HAL_GPIO_WritePin(LD3_GPIO_Port, LD3_Pin, 1);
+		}
+		else if (strcasecmp(token, "OFF") == 0) {
+			HAL_GPIO_WritePin(LD3_GPIO_Port, LD3_Pin, 0);
+		}
+		sprintf(s, "OK\n");
 	}
 	else if (strcasecmp(token, "STATUS") == 0){
-		if (HAL_GPIO_ReadPin(LD1_GPIO_Port, LD1_Pin) == 0) {
-			printf("LED1 is OFF\n");
+		if ((HAL_GPIO_ReadPin(LD1_GPIO_Port, LD1_Pin) == 0)  || HAL_GPIO_ReadPin(LD2_GPIO_Port, LD2_Pin) == 0 ||  (HAL_GPIO_ReadPin(LD3_GPIO_Port, LD3_Pin) == 0)) {
+			sprintf(s, "LEDS are OFF\r\n");
 		}
-		if (HAL_GPIO_ReadPin(LD1_GPIO_Port, LD1_Pin) == 1) {
-			sprintf(s, "LED1 is ON\n");
-		}
-		if (HAL_GPIO_ReadPin(LD2_GPIO_Port, LD2_Pin) == 0) {
-			sprintf(s, "LED2 is OFF\n");
-		}
-		if (HAL_GPIO_ReadPin(LD2_GPIO_Port, LD2_Pin) == 1) {
-			sprintf(s, "LED2 is ON\n");
-		}
-		if (HAL_GPIO_ReadPin(LD3_GPIO_Port, LD3_Pin) == 0) {
-			sprintf(s, "LED3 is OFF\n");
-		}
-		if (HAL_GPIO_ReadPin(LD3_GPIO_Port, LD3_Pin) == 1) {
-			sprintf(s, "LED3 is ON\n");
+		else {
+			sprintf(s, "LEDS are ON\r\n");
 		}
 	}
 	else if (strcasecmp(token, "CLIENT") == 0){
-		sprintf(s, "client NOT active yet\n");
-		uint16_t addr;
-		uint8_t value;
-		// ignores the first word and reads the next one
-		token = strtok(NULL, " ");
-		// atoi converts string from token to an integer
-		addr = atoi(token);
-		// on address addr returns its value to variable value
-		//HAL_I2C_Mem_Read(&hi2c1, EEPROM_ADDR, addr, I2C_MEMADD_SIZE_16BIT, &value, 1, 1000);
-		//printf("Adresa 0x%04x = 0x%02x\n", addr, value);
+		//sprintf(s, "client NOT active yet\r\n");
+		http_client(s, 1024);
+		//sprintf(s, "\r client active\r\n");
 
 	}
 	netconn_write(conn, s, strlen(s), NETCONN_COPY);
@@ -131,6 +140,7 @@ static void telnet_byte_available(uint8_t c, struct netconn *conn)
 		cnt = 0;
 	}
 }
+
 
 
 /*-----------------------------------------------------------------------------------*/
