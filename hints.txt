@@ -18,16 +18,14 @@ static uint32_t delay;
 //kazdych 40ms skontroluje ci bolo tlacidlo stlacene a ak hej zapne ledku
 //na LED_TIME_SHORT
 if (Tick > delay40 + 40) {
-		if (old_s2 && !new_s2) { // falling edge
-			off_time = Tick + LED_TIME_SHORT;
-			GPIOB->BSRR = (1<<0); //LED2
-		}
-		old_s2 = new_s2;
-		delay40 = Tick;
+	if (old_s2 && !new_s2) { // falling edge
+		off_time = Tick + LED_TIME_SHORT;
+		GPIOB->BSRR = (1<<0); //LED2
 	}
+	old_s2 = new_s2;
+	delay40 = Tick;
+}
 
-//kazdych 40ms skontroluje ci bolo tlacidlo stlacene a ak hej zapne ledku
-//na LED_TIME_SHORT
 
 //kazdych 5ms kontroluje stlacenie buttonu, ak hej tak vyriesi zakmity 
 //a na LED_TIME_LONG zapne LEDku
